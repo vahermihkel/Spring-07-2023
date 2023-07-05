@@ -16,10 +16,14 @@ public class OwnerService {
     @Autowired
     OwnerRepository ownerRepository;
 
+    @Autowired
+    ModelMapper modelMapper;
+
    public List<OwnerDTO> findAllOwners() {
        List<Owner> owners = ownerRepository.findAll();
        List<OwnerDTO> ownerDTOs = new ArrayList<>();
-       ModelMapper modelMapper = new ModelMapper();
+//       ModelMapper modelMapper = new ModelMapper();
+       System.out.println(modelMapper); // logib välja konsooli
        for (Owner o: owners) {
            OwnerDTO ownerDTO = modelMapper.map(o, OwnerDTO.class);
            ownerDTOs.add(ownerDTO);

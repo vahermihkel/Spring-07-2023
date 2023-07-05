@@ -8,9 +8,7 @@ import ee.mihkel.lemmikloomad.repository.PetRepository;
 import ee.mihkel.lemmikloomad.service.OwnerService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,25 +23,30 @@ public class PetController {
     @Autowired
     OwnerRepository ownerRepository;
 
-    @GetMapping("pet/add") // localhost:8080/pet/add?name=Koer&weight=2000
+    @PostMapping("pets") // localhost:8080/pet/add?name=Koer&weight=2000
     public List<Pet> addPet(
             @RequestParam String name,
             @RequestParam double weight
     ) {
-        Pet pet = new Pet(name, weight);
+        Pet pet = new Pet(name, weight, null);
         // lisame andmebaasi
         petRepository.save(pet);
         //returnime: võtta kõik mis on juba andmebaasis
         return petRepository.findAll();
     }
 
-    @GetMapping("owner/add") // localhost:8080/owner/add?name=Ott
+    @PostMapping("owners") // localhost:8080/owner/add?name=Ott
     public List<Owner> addOwner(
-            @RequestParam String name
-    ) {
-        Owner owner = new Owner();
-        owner.setName(name);
+            @RequestBody Owner owner
+    ) throws Exception {
+//        Owner owner = new Owner();
+//        owner.setName(name);
         // lisame andmebaasi
+        if (ownerRepository.findByPersonalCode(owner.getPersonalCode()) != null) {
+            throw new Exception("Sama isikukoodiga inimene on juba olemas");
+        }
+
+        owner.setPets(new ArrayList<>());
         ownerRepository.save(owner);
         //returnime: võtta kõik mis on juba andmebaasis
         return ownerRepository.findAll();
@@ -84,6 +87,28 @@ public class PetController {
     public List<OwnerDTO> findAllOwners() {
         return ownerService.findAllOwners();
     }
+
+    @GetMapping("owner-personcode/{personCode}") // localhost:8080/owner-personcode
+    public Owner findOwnerByPersonCode(@PathVariable String personCode) {
+        return ownerRepository.findByPersonalCode(personCode);
+    }
+
+    @GetMapping("owner-by-pet") // localhost:8080/owner-by-pet
+    public List<Owner> findOwnersByPetCount() {
+        return ownerRepository.findAllByPetsGreaterThan(0);
+    }
+
+//    public List<Owner> findAllByPetsGreaterThan(List<Owner> owners, int count) {
+//        List<Owner> result = new ArrayList<>();
+//
+//        for (Owner owner : owners) {
+//            if (owner.getPets().size() > count) {
+//                result.add(owner);
+//            }
+//        }
+//
+//        return result;
+//    }
 
 }
 

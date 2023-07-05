@@ -2,6 +2,7 @@ package ee.mihkel.lemmikloomad.entity;
 
 import jakarta.persistence.Entity; // Spring 2.7xxx    javax.persistence.Entity
 import jakarta.persistence.Id;
+import jakarta.persistence.ManyToOne;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -16,6 +17,9 @@ public class Pet {
     @Id
     private String name;
     private double weight;
+
+    @ManyToOne
+    private Owner owner; // KATKI
 }
 
 //
