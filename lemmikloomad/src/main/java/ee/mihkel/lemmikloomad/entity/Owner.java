@@ -1,4 +1,4 @@
-package ee.mihkel.lemmikloomad;
+package ee.mihkel.lemmikloomad.entity;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
@@ -18,6 +18,8 @@ import java.util.List;
 public class Owner {
     @Id
     private String name;
+    private String personalCode;
+    private String telephone;
     @OneToMany
     private List<Pet> pets;
 }

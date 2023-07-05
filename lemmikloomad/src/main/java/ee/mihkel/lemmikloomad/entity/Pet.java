@@ -1,4 +1,4 @@
-package ee.mihkel.lemmikloomad;
+package ee.mihkel.lemmikloomad.entity;
 
 import jakarta.persistence.Entity; // Spring 2.7xxx    javax.persistence.Entity
 import jakarta.persistence.Id;

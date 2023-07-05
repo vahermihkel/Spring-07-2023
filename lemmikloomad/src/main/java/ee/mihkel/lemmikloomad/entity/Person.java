@@ -1,4 +1,4 @@
-package ee.mihkel.lemmikloomad;
+package ee.mihkel.lemmikloomad.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
