@@ -42,4 +42,12 @@ public class ProductController {
         }
         return productRepository.findAll();
     }
+
+//    @PatchMapping("increase-stock/{id}")
+//    public List<Product> increaseStock(@PathVariable Long id, @RequestBody Product product) {
+//        if (productRepository.existsById(id)) {
+//            productRepository.save(product);
+//        }
+//        return productRepository.findAll();
+//    }
 }

@@ -1,4 +1,4 @@
-package ee.mihkel.webshop.dto;
+package ee.mihkel.webshop.dto.parcelmachines;
 
 import lombok.Data;
 

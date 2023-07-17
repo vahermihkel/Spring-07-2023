@@ -1,8 +1,7 @@
 package ee.mihkel.webshop.controller;
 
-import ee.mihkel.webshop.dto.OmnivaPM;
-import ee.mihkel.webshop.dto.ParcelMachines;
-import ee.mihkel.webshop.dto.SmartPostPM;
+import ee.mihkel.webshop.dto.parcelmachines.OmnivaPM;
+import ee.mihkel.webshop.dto.parcelmachines.ParcelMachines;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,7 +12,6 @@ import org.springframework.web.client.RestTemplate;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @RestController
 public class ParcelMachineController {
