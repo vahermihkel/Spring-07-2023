@@ -39,7 +39,7 @@ public class OrderController {
     public ResponseEntity<String> addOrder(
             @RequestBody List<OrderRow> orderRows,
             @PathVariable Long personId
-    ) {
+    ) throws Exception {
         // hiljem ---> võtame tokeni küljest isiku
         double totalSum = orderService.getTotalSum(orderRows);
         Long id = orderService.saveOrderToDb(totalSum, orderRows, personId);

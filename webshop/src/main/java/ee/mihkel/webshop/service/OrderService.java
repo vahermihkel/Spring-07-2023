@@ -5,6 +5,7 @@ import ee.mihkel.webshop.dto.everypay.EverypayResponse;
 import ee.mihkel.webshop.entity.Order;
 import ee.mihkel.webshop.entity.OrderRow;
 import ee.mihkel.webshop.entity.Person;
+import ee.mihkel.webshop.entity.Product;
 import ee.mihkel.webshop.repository.OrderRepository;
 import ee.mihkel.webshop.repository.PersonRepository;
 import ee.mihkel.webshop.repository.ProductRepository;
@@ -44,10 +45,14 @@ public class OrderService {
     }
 
     // ctrl + alt + m
-    public double getTotalSum(List<OrderRow> orderRows) {
+    public double getTotalSum(List<OrderRow> orderRows) throws Exception {
         double totalSum = 0;
         for (OrderRow o : orderRows) {
-            totalSum += o.getQuantity() * productRepository.findById(o.getProduct().getId()).get().getPrice();
+            Product product = productRepository.findById(o.getProduct().getId()).get();
+            if (product.getStock() < o.getQuantity()) {
+                throw new Exception("Not enough in stock: " + product.getName() + ", id: " + product.getId()); // TODO:Enda exceptioni
+            }
+            totalSum += o.getQuantity() * product.getPrice();
         }
         return totalSum;
     }
