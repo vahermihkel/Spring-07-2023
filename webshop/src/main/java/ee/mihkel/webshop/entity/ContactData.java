@@ -19,6 +19,6 @@ public class ContactData {
     private String email;
     private String phone;
 
-    @OneToOne
+    @OneToOne(cascade = {CascadeType.ALL})
     private Address address;
 }
