@@ -5,6 +5,7 @@ import ee.mihkel.webshop.dto.everypay.EverypayResponse;
 import ee.mihkel.webshop.entity.Order;
 import ee.mihkel.webshop.entity.OrderRow;
 import ee.mihkel.webshop.entity.Person;
+import ee.mihkel.webshop.exception.NotEnoughInStockException;
 import ee.mihkel.webshop.repository.OrderRepository;
 import ee.mihkel.webshop.repository.PersonRepository;
 import ee.mihkel.webshop.repository.ProductRepository;
@@ -39,7 +40,7 @@ public class OrderController {
     public ResponseEntity<String> addOrder(
             @RequestBody List<OrderRow> orderRows,
             @PathVariable Long personId
-    ) throws Exception {
+    ) throws NotEnoughInStockException {
         // hiljem ---> võtame tokeni küljest isiku
         double totalSum = orderService.getTotalSum(orderRows);
         Long id = orderService.saveOrderToDb(totalSum, orderRows, personId);

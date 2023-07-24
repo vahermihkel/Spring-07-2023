@@ -1,11 +1,13 @@
 package ee.mihkel.webshop.controller;
 
 import ee.mihkel.webshop.entity.Product;
+//import ee.mihkel.webshop.exception.ProductNotFoundException;
 import ee.mihkel.webshop.repository.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 
 @RestController
 public class ProductController {
@@ -31,7 +33,10 @@ public class ProductController {
     }
 
     @GetMapping("products/{id}")
-    public Product getProduct(@PathVariable Long id) {
+    public Product getProduct(@PathVariable Long id) throws NoSuchElementException {
+        if (!productRepository.existsById(id)) {
+            throw new NoSuchElementException("Product not found");
+        }
         return productRepository.findById(id).get();
     }
 
