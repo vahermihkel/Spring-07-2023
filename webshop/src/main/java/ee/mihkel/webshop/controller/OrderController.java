@@ -18,6 +18,7 @@ import org.springframework.web.client.RestTemplate;
 import java.time.ZonedDateTime;
 import java.util.Date;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 @RestController
 public class OrderController {
@@ -40,7 +41,7 @@ public class OrderController {
     public ResponseEntity<String> addOrder(
             @RequestBody List<OrderRow> orderRows,
             @PathVariable Long personId
-    ) throws NotEnoughInStockException {
+    ) throws NotEnoughInStockException, ExecutionException {
         // hiljem ---> võtame tokeni küljest isiku
         double totalSum = orderService.getTotalSum(orderRows);
         Long id = orderService.saveOrderToDb(totalSum, orderRows, personId);
@@ -67,6 +68,11 @@ public class OrderController {
             orderRepository.save(order);
         }
         return orderRepository.findAll();
+    }
+
+    @GetMapping("check-payment/{paymentReference}")
+    public ResponseEntity<Boolean> checkPayment(@PathVariable String paymentReference) {
+        return new ResponseEntity<>(orderService.checkPayment(paymentReference),HttpStatus.OK);
     }
 
 //    @GetMapping("payment/{sum}")

@@ -44,6 +44,12 @@ public class ControllerExceptionHandler {
         return getExceptionMessageResponseEntity(HttpStatus.BAD_REQUEST, message);
     }
 
+    @ExceptionHandler
+    public ResponseEntity<ExceptionMessage> handleException(RuntimeException e) {
+        String message = e.getMessage();
+        return getExceptionMessageResponseEntity(HttpStatus.BAD_REQUEST, message);
+    }
+
 //     KÕIGE LÕPUS, KUI ON LIVE-i EELNE (kui on ülejäänud exceptionid kaetud)
 //    @ExceptionHandler
 //    public ResponseEntity<ExceptionMessage> handleException(Exception e) {
