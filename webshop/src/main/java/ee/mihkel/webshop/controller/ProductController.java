@@ -15,6 +15,7 @@ import java.util.NoSuchElementException;
 import java.util.concurrent.ExecutionException;
 
 @RestController
+@CrossOrigin(origins = "http://localhost:4200")
 public class ProductController {
 
     @Autowired
