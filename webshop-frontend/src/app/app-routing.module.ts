@@ -10,7 +10,7 @@ const routes: Routes = [
   { path: '', component: HomepageComponent },
   { path: 'ostukorv', component: CartComponent },
   { path: 'lisa-toode', component: AddProductComponent },
-  { path: 'muuda-toode', component: EditProductComponent },
+  { path: 'muuda-toode/:id', component: EditProductComponent },
   { path: 'halda-tooteid', component: MaintainProductsComponent },
 ];
 

@@ -15,7 +15,7 @@ import java.util.NoSuchElementException;
 import java.util.concurrent.ExecutionException;
 
 @RestController
-@CrossOrigin(origins = "http://localhost:4200")
+//@CrossOrigin(origins = "http://localhost:4200")
 public class ProductController {
 
     @Autowired
@@ -57,9 +57,10 @@ public class ProductController {
     }
 
     @PutMapping("products/{id}")
-    public List<Product> editProduct(@PathVariable Long id, @RequestBody Product product) {
+    public List<Product> editProduct(@PathVariable Long id, @RequestBody Product product) throws ExecutionException {
         if (productRepository.existsById(id)) {
             productRepository.save(product);
+            productCache.refreshProduct(id, product);
         }
         return productRepository.findAllByOrderById();
     }

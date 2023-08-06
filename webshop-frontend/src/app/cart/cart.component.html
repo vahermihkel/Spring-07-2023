@@ -1,1 +1,24 @@
-<p>cart works!</p>
+<button
+class="cart-top btn btn-primary"
+*ngIf="cartProducts.length > 0" (click)="onEmptyCart()">Tühjenda</button>
+
+<div>
+  <div class="cart-item" *ngFor="let cProduct of cartProducts">
+    <img class="cart-item-pic" src="{{cProduct.product.image}}" alt="">
+    <div class="cart-item-name">{{ cProduct.product.name }}</div>
+    <div class="cart-item-price">{{ cProduct.product.price.toFixed(2) }}</div>
+    <div>
+        <img class="cart-button" (click)="onDecreaseQuantity(cProduct)" src="assets/cart/minus.png" />
+        <span class="cart-item-quantity">{{ cProduct.quantity }} tk</span>
+        <img class="cart-button" (click)="onIncreaseQuantity(cProduct)" src="assets/cart/plus.png" />
+    </div>
+    <div class="cart-item-total">{{ (cProduct.product.price * cProduct.quantity).toFixed(2) }}</div>
+    <img class="cart-button" (click)="onRemoveProduct(cProduct)" src="assets/cart/delete.png" />
+  </div>
+</div>
+
+<div class="cart-bottom">
+    <div *ngIf="cartProducts.length > 0">KOKKU: {{sumOfCart.toFixed(2)}} €</div>
+        <br>
+        <button class="btn btn-success" (click)="onPay()">Maksma</button>
+</div>

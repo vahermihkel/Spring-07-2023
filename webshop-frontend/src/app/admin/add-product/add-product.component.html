@@ -1,1 +1,49 @@
-<p>add-product works!</p>
+<form (ngSubmit)="handleSubmit(addProductForm)" #addProductForm="ngForm" class="m-3 border border-dark p-3 shadow-lg p-3 mb-5 bg-white rounded"
+      style="width: 400px">
+  <h1 class="text-center mb-3">Add Product</h1>
+
+  <div class="form-outline mb-4 bg-light">
+    <input ngModel name="name" type="text" id="name" class="form-control" />
+    <label class="form-label" for="name">Name</label>
+  </div>
+
+
+  <div class="form-outline mb-4 bg-light">
+    <input ngModel name="description" type="text" id="description" class="form-control" />
+    <label class="form-label" for="description">Description</label>
+  </div>
+
+  <div class="form-outline mb-4 bg-light">
+    <input ngModel name="image" type="text" id="image" class="form-control" />
+    <label class="form-label" for="image">Image URL</label>
+  </div>
+
+  <div class="form-outline mb-4 bg-light">
+    <input ngModel name="price" type="number" id="price" class="form-control" />
+    <label class="form-label" for="price">Price</label>
+  </div>
+
+  <div class="input-group mb-3 bg-light">
+    <select ngModel name="category" class="w-100 bg-light" id="category">
+      <option selected>Select Category</option>
+      <!-- <option value="1">One</option>
+      <option value="2">Two</option>
+      <option value="3">Three</option>     property binding   string interpolation -->
+      <option *ngFor="let category of categories" [value]="category.id">{{category.name}}</option>
+    </select>
+  </div>
+
+  <div class="form-outline mb-4 bg-light">
+    <input ngModel name="stock" type="number" id="price" class="form-control" />
+    <label class="form-label" for="price">Nr. in Stock</label>
+  </div>
+
+  <div class="form-check d-flex justify-content-start mb-4">
+    <input ngModel name="active" class="form-check-input me-2" type="checkbox" value="" id="form4Example4" checked />
+    <label class="form-check-label" for="form4Example4">
+      Product is active
+    </label>
+  </div>
+
+  <button type="submit" class="btn btn-primary btn-block mb-4">Add Product</button>
+</form>

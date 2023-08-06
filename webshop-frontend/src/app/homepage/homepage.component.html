@@ -1,9 +1,12 @@
-<p>homepage works!</p>
+<!-- <p>homepage works!</p> -->
 <!-- <div>{{ products }}</div> -->
 
-<div *ngFor="let item of products">
-  <div>{{item}}</div>
-  <button (click)="addToCart(item)">Lisa ostukorvi</button>
+<div class="products">
+  <div class="product" *ngFor="let item of products">
+    <div class="name">{{item.name}}</div>
+    <div>{{item.price}}</div>
+    <button class="btn btn-success" (click)="addToCart(item)">Lisa ostukorvi</button>
+  </div>
 </div>
 
 <!-- 

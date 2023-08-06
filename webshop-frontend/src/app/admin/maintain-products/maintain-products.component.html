@@ -1,1 +1,27 @@
-<p>maintain-products works!</p>
+<table>
+  <thead>
+    <th>ID</th>
+    <th>Name</th>
+    <th>Price</th>
+    <th>Category</th>
+    <th>Description</th>
+    <th>Stock</th>
+    <th>Actions</th>
+  </thead>
+  <tbody>
+    <tr *ngFor="let product of products">
+      <td>{{ product.id }}</td>
+      <td>{{ product.name }}</td>
+      <td>{{ product.price }} €</td>
+      <td>{{ product.category.name }}</td>
+      <td>{{ product.description }}</td>
+      <td>{{ product.stock }}</td>
+      <td>
+        <button class="btn btn-primary" (click)="decreaseStock(product)">Vähenda kogust</button>
+        <button class="btn btn-success" (click)="increaseStock(product)">Suurenda kogust</button>
+        <button class="btn btn-warning" routerLink="/muuda-toode/{{product.id}}">Muuda toodet</button>
+        <button class="btn btn-danger" (click)="deleteProduct(product)">Eemalda toode</button>
+      </td>
+    </tr>
+  </tbody>
+</table>
