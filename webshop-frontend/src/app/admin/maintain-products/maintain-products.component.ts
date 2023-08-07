@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Component } from '@angular/core';
 import { Product } from 'src/app/models/product.model';
+import { ProductService } from 'src/app/services/product.service';
 
 @Component({
   selector: 'app-maintain-products',
@@ -11,26 +12,31 @@ export class MaintainProductsComponent {
 
   products: Product[] = [];
 
-  constructor(private httpClient: HttpClient) {} // Dependency Injection
+  constructor(private productService: ProductService) {} // Dependency Injection
 
   ngOnInit() { // reserveeritud funktsioon ComponentDidMount
-    this.httpClient.get<Product[]>("http://localhost:8080/products").subscribe(res => 
+    this.productService.getProducts().subscribe(res => 
       this.products = res
     );
   }
   
   deleteProduct(product: Product) {
-    this.httpClient.delete<Product[]>("http://localhost:8080/products/" + product.id).subscribe(res => 
+    this.productService.deleteProduct(product).subscribe(res => 
       this.products = res
     );
   }
 
+  // onDecreaseStock()
   decreaseStock(product: Product) {
-    
+    this.productService.decreaseStock(product).subscribe(res =>
+      this.products = res  
+    );
   }
 
   increaseStock(product: Product) {
-    
+    this.productService.increaseStock(product).subscribe(res =>
+      this.products = res  
+    );
   }
 
 }

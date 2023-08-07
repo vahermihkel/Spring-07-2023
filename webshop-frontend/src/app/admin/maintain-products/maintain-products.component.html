@@ -17,7 +17,7 @@
       <td>{{ product.description }}</td>
       <td>{{ product.stock }}</td>
       <td>
-        <button class="btn btn-primary" (click)="decreaseStock(product)">Vähenda kogust</button>
+        <button class="btn btn-primary" [disabled]="product.stock === 0" (click)="decreaseStock(product)">Vähenda kogust</button>
         <button class="btn btn-success" (click)="increaseStock(product)">Suurenda kogust</button>
         <button class="btn btn-warning" routerLink="/muuda-toode/{{product.id}}">Muuda toodet</button>
         <button class="btn btn-danger" (click)="deleteProduct(product)">Eemalda toode</button>

@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Product } from '../models/product.model';
 import { CartProduct } from '../models/cart-product.model';
+import { ProductService } from '../services/product.service';
 
 @Component({
   selector: 'app-homepage',
@@ -11,11 +12,10 @@ import { CartProduct } from '../models/cart-product.model';
 export class HomepageComponent {
   products: Product[] = [];
 
-  constructor(private httpClient: HttpClient) {}
+  constructor(private productService: ProductService) {}
 
   ngOnInit() {
-    this.httpClient
-      .get<Product[]>('http://localhost:8080/products')
+    this.productService.getProducts()
       .subscribe((data: Product[]) => {
         this.products = data;
       });

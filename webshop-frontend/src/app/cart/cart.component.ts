@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { CartProduct } from '../models/cart-product.model';
+import { CartService } from '../services/cart.service';
 
 @Component({
   selector: 'app-cart',
@@ -10,6 +11,8 @@ export class CartComponent {
   cartProducts: CartProduct[] = [];
   parcelmachines: any[] = [];
   sumOfCart = 0;
+
+  constructor(private cartService: CartService) {}
 
   ngOnInit(): void {
     const cartItemsSS = sessionStorage.getItem("cartItems");
@@ -55,8 +58,8 @@ export class CartComponent {
   }
 
   onPay() {
-    // this.paymentService.getPaymentLink(this.cartProducts).subscribe(res => {
-    //   window.location.href = res.payment_link;
-    // });
+    this.cartService.getPaymentLink(this.cartProducts).subscribe(res => {
+      window.location.href = res;
+    });
   }
 }
