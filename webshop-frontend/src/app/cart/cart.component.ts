@@ -8,6 +8,7 @@ import { CartProduct } from '../models/cart-product.model';
 })
 export class CartComponent {
   cartProducts: CartProduct[] = [];
+  parcelmachines: any[] = [];
   sumOfCart = 0;
 
   ngOnInit(): void {

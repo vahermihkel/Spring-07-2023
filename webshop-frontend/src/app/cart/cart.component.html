@@ -17,8 +17,17 @@ class="cart-top btn btn-primary"
   </div>
 </div>
 
-<div class="cart-bottom">
-    <div *ngIf="cartProducts.length > 0">KOKKU: {{sumOfCart.toFixed(2)}} €</div>
-        <br>
-        <button class="btn btn-success" (click)="onPay()">Maksma</button>
+<div *ngIf="cartProducts.length > 0" class="cart-bottom">
+    <div>KOKKU: {{sumOfCart.toFixed(2)}} €</div>
+    <select>
+      <option *ngFor="let parcelmachine of parcelmachines">
+        {{parcelmachine}}
+      </option>
+    </select>
+    <br>
+    <button class="btn btn-success" (click)="onPay()">Maksma</button>
+</div>
+
+<div class="center" *ngIf="cartProducts.length === 0">
+  Ostukorv on tühi
 </div>
