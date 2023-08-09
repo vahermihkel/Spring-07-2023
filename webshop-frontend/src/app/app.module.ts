@@ -27,6 +27,9 @@ import { AddProductComponent } from './admin/add-product/add-product.component';
 import { EditProductComponent } from './admin/edit-product/edit-product.component';
 import { CartComponent } from './cart/cart.component';
 import { MaintainProductsComponent } from './admin/maintain-products/maintain-products.component';
+import { NotFoundComponent } from './not-found/not-found.component';
+import { LoginComponent } from './auth/login/login.component';
+import { SignupComponent } from './auth/signup/signup.component';
 
 @NgModule({
   declarations: [
@@ -35,7 +38,10 @@ import { MaintainProductsComponent } from './admin/maintain-products/maintain-pr
     AddProductComponent,
     EditProductComponent,
     CartComponent,
-    MaintainProductsComponent
+    MaintainProductsComponent,
+    NotFoundComponent,
+    LoginComponent,
+    SignupComponent
   ],
   imports: [
     BrowserModule,

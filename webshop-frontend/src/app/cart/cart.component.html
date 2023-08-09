@@ -20,8 +20,13 @@ class="cart-top btn btn-primary"
 <div *ngIf="cartProducts.length > 0" class="cart-bottom">
     <div>KOKKU: {{sumOfCart.toFixed(2)}} €</div>
     <select>
-      <option *ngFor="let parcelmachine of parcelmachines">
-        {{parcelmachine}}
+      <option *ngFor="let parcelmachine of omnivaPMs">
+        {{parcelmachine.NAME}}
+      </option>
+    </select>
+    <select *ngIf="smartPostPMs.length > 0">
+      <option *ngFor="let parcelmachine of smartPostPMs">
+        {{parcelmachine.name}}
       </option>
     </select>
     <br>

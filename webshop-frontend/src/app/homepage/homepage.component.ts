@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Product } from '../models/product.model';
 import { CartProduct } from '../models/cart-product.model';
 import { ProductService } from '../services/product.service';
+import { Page } from '../models/page.interface';
 
 @Component({
   selector: 'app-homepage',
@@ -11,13 +12,26 @@ import { ProductService } from '../services/product.service';
 })
 export class HomepageComponent {
   products: Product[] = [];
+  pages: number[] = []; // [1,2]
+  activePage = 1;
 
   constructor(private productService: ProductService) {}
 
   ngOnInit() {
-    this.productService.getProducts()
-      .subscribe((data: Product[]) => {
-        this.products = data;
+    this.productService.getPublicProducts(0)
+      .subscribe((data: Page) => {
+        this.products = data.content;
+        for (let index = 1; index <= data.totalPages; index++) {
+          this.pages.push(index);
+        }
+      });
+  }
+
+  onChangePage(page: number) {
+    this.activePage = page;
+    this.productService.getPublicProducts(page - 1)
+      .subscribe((data: Page) => {
+        this.products = data.content;
       });
   }
 

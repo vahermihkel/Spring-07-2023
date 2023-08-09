@@ -9,7 +9,8 @@ import { CartService } from '../services/cart.service';
 })
 export class CartComponent {
   cartProducts: CartProduct[] = [];
-  parcelmachines: any[] = [];
+  omnivaPMs: any[] = [];
+  smartPostPMs: any[] = [];
   sumOfCart = 0;
 
   constructor(private cartService: CartService) {}
@@ -20,6 +21,18 @@ export class CartComponent {
       this.cartProducts = JSON.parse(cartItemsSS); 
     }
     this.calculateSumOfCart();
+    // this.cartService.getParcelMachines().subscribe(res => {
+    //   this.parcelmachines = res;
+    // })
+    this.onChangeParcelMachine("ee");
+  }
+
+  // nupuvajutus kas ee, lv, lt
+  onChangeParcelMachine(country: string) {
+    this.cartService.getParcelMachines().subscribe(res => {
+      this.omnivaPMs = res.omnivaPMs;
+      this.smartPostPMs = res.smartPostPMs;
+    })
   }
 
   onDecreaseQuantity(cartProduct: CartProduct) {

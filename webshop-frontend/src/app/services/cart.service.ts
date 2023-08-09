@@ -7,11 +7,16 @@ import { environment } from '../../environment/environment';
   providedIn: 'root'
 })
 export class CartService {
-  private url = environment.baseUrl + "/orders/1"
+  private paymentUrl = environment.baseUrl + "/orders/1";
+  private parcelmachineUrl = environment.baseUrl + "/parcel-machines/"
 
   constructor(private httpClient: HttpClient) { }
 
   getPaymentLink(cartProducts: CartProduct[]) {  // ise võiks saata objekti 
-    return this.httpClient.post(this.url, cartProducts, { responseType: 'text' });
+    return this.httpClient.post(this.paymentUrl, cartProducts, { responseType: 'text' });
+  }
+
+  getParcelMachines() { // KOJU: EE , LV ja LT nupu kaudu pakiautomaadid 
+    return this.httpClient.get<any>(this.parcelmachineUrl + "ee");
   }
 }

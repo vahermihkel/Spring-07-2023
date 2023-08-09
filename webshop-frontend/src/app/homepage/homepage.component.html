@@ -12,3 +12,5 @@
 <!-- 
   for(Product item: list)
  -->
+
+ <button [class.active]="activePage === page" *ngFor="let page of pages" (click)="onChangePage(page)">{{page}}</button>
