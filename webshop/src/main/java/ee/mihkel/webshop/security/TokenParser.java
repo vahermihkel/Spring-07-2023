@@ -1,6 +1,11 @@
 package ee.mihkel.webshop.security;
 
 import com.google.common.net.HttpHeaders;
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.io.Decoders;
+import io.jsonwebtoken.security.Keys;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -19,6 +24,7 @@ import java.io.IOException;
 @Component // JwtAuthFilter
 @Log4j2
 public class TokenParser extends BasicAuthenticationFilter {
+    private String securityKey = "c3JamEI9m0kf4NUaeb0KvrbXdTCMrDdYezn7zPmwSC0op2JaHESnuOHtcpQx1+hYyce6DbnHJ0CMoW0+vrIzf3VTUIPmJg==";
 
     public TokenParser(@Lazy AuthenticationManager authenticationManager) {
         super(authenticationManager);
@@ -26,30 +32,26 @@ public class TokenParser extends BasicAuthenticationFilter {
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws IOException, ServletException {
-
-        System.out.println(request.getMethod());
-//        log.info(request.getMethod());
-//        log.debug("");
-//        log.error("");
-        log.info(request.getHeader(HttpHeaders.AUTHORIZATION));
+        String requestToken = request.getHeader(HttpHeaders.AUTHORIZATION);
+        log.info(requestToken);
 
         // 1. Token peab olemas olema
         // 2. Token peab algama Bearer'ga
         // 3. Token peab olema lahtipakitav
 
-        if (request.getHeader(HttpHeaders.AUTHORIZATION) != null &&
-                request.getHeader(HttpHeaders.AUTHORIZATION).equals("123")) {
-            log.info("SEES");
-            // List list = new ArrayList();
-            Authentication authentication = new UsernamePasswordAuthenticationToken("KASUTAJA1", null, null);
-            SecurityContextHolder.getContext().setAuthentication(authentication);
-        }
+        if (requestToken != null &&
+                requestToken.startsWith("Bearer ")) {
+            requestToken = requestToken.replace("Bearer ", "");
 
-        if (request.getHeader(HttpHeaders.AUTHORIZATION) != null &&
-                request.getHeader(HttpHeaders.AUTHORIZATION).equals("1234")) {
-            log.info("SEES");
-            // List list = new ArrayList();
-            Authentication authentication = new UsernamePasswordAuthenticationToken("KASUTAJA2", null, null);
+            Claims claims = Jwts.parserBuilder()
+                    .setSigningKey(Keys.hmacShaKeyFor(Decoders.BASE64.decode(securityKey)))
+                    .build()
+                    .parseClaimsJws(requestToken)
+                    .getBody();
+
+            String personId = claims.getSubject();
+
+            Authentication authentication = new UsernamePasswordAuthenticationToken(personId, null, null);
             SecurityContextHolder.getContext().setAuthentication(authentication);
         }
 

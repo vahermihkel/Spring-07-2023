@@ -19,7 +19,7 @@ public class TokenGenerator {
     public AuthToken getToken(Person person) {
         AuthToken authToken = new AuthToken();
 
-        Date expiration = new Date(System.currentTimeMillis() + 1000 * 60 * 60);
+        Date expiration = new Date(System.currentTimeMillis() + 1000 * 60);
         authToken.setExpiration(expiration);
 
         String jwtToken = Jwts.builder()
