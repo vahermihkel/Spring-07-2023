@@ -1,7 +1,7 @@
 package ee.mihkel.webshop.controller;
 
 import ee.mihkel.webshop.dto.security.LoginData;
-import ee.mihkel.webshop.dto.security.Token;
+import ee.mihkel.webshop.dto.security.AuthToken;
 import ee.mihkel.webshop.entity.Person;
 import ee.mihkel.webshop.repository.PersonRepository;
 import ee.mihkel.webshop.security.TokenGenerator;
@@ -24,15 +24,19 @@ public class AuthController {
     TokenGenerator tokenGenerator;
 
     @PostMapping("login")
-    public ResponseEntity<Token> login(@RequestBody LoginData loginData) {
+    public ResponseEntity<AuthToken> login(@RequestBody LoginData loginData) {
         // Login
         Person person = personRepository.findByPersonalCode(loginData.getPersonalCode());
         return new ResponseEntity<>(tokenGenerator.getToken(person), HttpStatus.OK);
     }
 
     @PostMapping("signup")
-    public ResponseEntity<Token> signup(@RequestBody Person person) {
+    public ResponseEntity<AuthToken> signup(@RequestBody Person person) {
         Person savedPerson = personRepository.save(person);
         return new ResponseEntity<>(tokenGenerator.getToken(savedPerson), HttpStatus.OK);
     }
 }
+
+// Unit testing
+// OAuth
+// Facebooki ja Google kontoga sisselogimine

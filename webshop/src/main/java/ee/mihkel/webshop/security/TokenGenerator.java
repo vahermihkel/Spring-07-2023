@@ -1,6 +1,6 @@
 package ee.mihkel.webshop.security;
 
-import ee.mihkel.webshop.dto.security.Token;
+import ee.mihkel.webshop.dto.security.AuthToken;
 import ee.mihkel.webshop.entity.Person;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -16,11 +16,11 @@ public class TokenGenerator {
     // HILJEM KINDLASTI appication.properties failist (ei tohi Githubi panna!!)
     private String securityKey = "c3JamEI9m0kf4NUaeb0KvrbXdTCMrDdYezn7zPmwSC0op2JaHESnuOHtcpQx1+hYyce6DbnHJ0CMoW0+vrIzf3VTUIPmJg==";
 
-    public Token getToken(Person person) {
-        Token token = new Token();
+    public AuthToken getToken(Person person) {
+        AuthToken authToken = new AuthToken();
 
         Date expiration = new Date(System.currentTimeMillis() + 1000 * 60 * 60);
-        token.setExpiration(expiration);
+        authToken.setExpiration(expiration);
 
         String jwtToken = Jwts.builder()
                 .signWith(Keys.hmacShaKeyFor(Decoders.BASE64.decode(securityKey)), SignatureAlgorithm.HS512)
@@ -29,9 +29,9 @@ public class TokenGenerator {
                 .setSubject(person.getId().toString())
                 .compact();
 
-        token.setToken(jwtToken);
+        authToken.setToken(jwtToken);
 
-        return token;
+        return authToken;
     }
 
 }
