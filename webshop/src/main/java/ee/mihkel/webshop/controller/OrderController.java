@@ -10,8 +10,10 @@ import ee.mihkel.webshop.repository.OrderRepository;
 import ee.mihkel.webshop.repository.PersonRepository;
 import ee.mihkel.webshop.repository.ProductRepository;
 import ee.mihkel.webshop.service.OrderService;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 
@@ -21,6 +23,7 @@ import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 @RestController
+@Log4j2
 public class OrderController {
 
     // KODUS: Kõikide võtmine, Lisamine???, Kustutamine, Ühe võtmine, Muutmine???
@@ -37,14 +40,17 @@ public class OrderController {
         return new ResponseEntity<>(orderRepository.findAll(), HttpStatus.OK);
     }
 
-    @PostMapping("orders/{personId}")
+    @PostMapping("orders")
     public ResponseEntity<String> addOrder(
-            @RequestBody List<OrderRow> orderRows,
-            @PathVariable Long personId
+            @RequestBody List<OrderRow> orderRows
+//            @PathVariable Long personId
     ) throws NotEnoughInStockException, ExecutionException {
         // hiljem ---> võtame tokeni küljest isiku
+        String personId = SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString();
+        log.info(personId);
+
         double totalSum = orderService.getTotalSum(orderRows);
-        Long id = orderService.saveOrderToDb(totalSum, orderRows, personId);
+        Long id = orderService.saveOrderToDb(totalSum, orderRows, 1L);
         String paymentUrl = orderService.makePayment(totalSum, id);
 //        return ResponseEntity.status(HttpStatus.CREATED).body(orderRepository.findAll());
         return new ResponseEntity<>(paymentUrl, HttpStatus.CREATED);

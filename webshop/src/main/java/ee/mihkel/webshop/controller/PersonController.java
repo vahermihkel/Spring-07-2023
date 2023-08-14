@@ -20,11 +20,11 @@ public class PersonController {
         return personRepository.findAll();
     }
 
-    @PostMapping("persons")
-    public List<Person> addPerson(@RequestBody Person person) {
-        personRepository.save(person);
-        return personRepository.findAll();
-    }
+//    @PostMapping("persons")
+//    public List<Person> addPerson(@RequestBody Person person) {
+//        personRepository.save(person);
+//        return personRepository.findAll();
+//    }
 
     @DeleteMapping("persons/{id}")
     public List<Person> deletePerson(@PathVariable Long id) {
