@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Product } from '../models/product.model';
 // import { environment } from 'src/environment/environment';
@@ -23,8 +23,12 @@ export class ProductService {
   }
 
   getProducts() {
+    const options = this.getAuthToken();
+    // let headers = new HttpHeaders();
+    // headers = headers.append('Authorization', "Bearer " + sessionStorage.getItem("token"));
+
     return this.httpClient
-      .get<Product[]>(this.url);
+      .get<Product[]>(this.url, options);
   }
 
   getPublicProducts(currentPage: number) {
@@ -46,15 +50,23 @@ export class ProductService {
 
   decreaseStock(product: Product) {
     // console.log(id);
-    return this.httpClient.patch<Product[]>(environment.baseUrl + "/decrease-stock/" + product.id, {});
+    return this.httpClient.patch<Product[]>(environment.baseUrl + "/decrease-stock/" + product.id, {}, this.getAuthToken());
   }
 
   increaseStock(product: Product) {
-    return this.httpClient.patch<Product[]>(environment.baseUrl + "/increase-stock/" + product.id, {});
+    return this.httpClient.patch<Product[]>(environment.baseUrl + "/increase-stock/" + product.id, {}, this.getAuthToken());
   }
 
   
   // increaseStock(id: Omit<Product, "id" | "name">) {
   //   return this.httpClient.patch(this.url, {});
   // }
+
+  private getAuthToken() {
+    return {
+      headers: new HttpHeaders({
+        "Authorization": "Bearer " + sessionStorage.getItem("token")
+      })
+    };
+  }
 }

@@ -29,11 +29,13 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception {
         return httpSecurity
-                .cors(AbstractHttpConfigurer::disable)
-                .headers(headers -> headers
-                        .xssProtection(HeadersConfigurer.XXssConfig::disable
-                        ))
-                .csrf(AbstractHttpConfigurer::disable)
+                .cors().and().headers().xssProtection().disable().and()
+                .csrf().disable()
+//                .cors(AbstractHttpConfigurer::disable)
+//                .headers(headers -> headers
+//                        .xssProtection(HeadersConfigurer.XXssConfig::disable
+//                        ))
+//                .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(requests -> requests
                         .requestMatchers("/public-products").permitAll()
                         .requestMatchers("/login").permitAll()
