@@ -4,6 +4,7 @@ import ee.mihkel.webshop.security.TokenParser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -44,8 +45,12 @@ public class SecurityConfig {
                         .requestMatchers("/public-products").permitAll()
                         .requestMatchers("/login").permitAll()
                         .requestMatchers("/signup").permitAll()
-                        .requestMatchers("/categories").permitAll()
+                        .requestMatchers(HttpMethod.GET,"/categories").permitAll()
+                        .requestMatchers(HttpMethod.POST,"/categories").hasAuthority("admin")
+                        .requestMatchers(HttpMethod.DELETE,"/categories").hasAuthority("admin")
+                        .requestMatchers(HttpMethod.PUT,"/categories").hasAuthority("admin")
                         .requestMatchers("/persons").hasAuthority("admin")
+                        .requestMatchers("/products").hasAuthority("admin")
                         .anyRequest().authenticated()
                 )
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))

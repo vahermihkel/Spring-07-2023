@@ -23,5 +23,8 @@ export class AuthService {
     return response;
   }
 
-  logout() {}
+  logout() {
+    sessionStorage.removeItem("token");
+    sessionStorage.removeItem("expiration");
+  }
 }

@@ -59,7 +59,6 @@ public class TokenParser extends BasicAuthenticationFilter {
 
             List<GrantedAuthority> authorities = new ArrayList<>();
             if (isAdmin) {
-                System.out.println("LÄKSIN SISSE");
                 GrantedAuthority authority = new SimpleGrantedAuthority("admin");
                 authorities.add(authority);
             }
