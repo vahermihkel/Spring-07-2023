@@ -46,4 +46,8 @@ public class PersonController {
         return personRepository.findAll();
     }
 
+    // API otspunkt Person admin muutuja trueks
+
+    // API otspunkt Person admin muutuja falseks
+
 }

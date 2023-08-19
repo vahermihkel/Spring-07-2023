@@ -36,11 +36,16 @@ public class SecurityConfig {
 //                        .xssProtection(HeadersConfigurer.XXssConfig::disable
 //                        ))
 //                .csrf(AbstractHttpConfigurer::disable)
+                // 1. Kui API otspunkti siia ei pane, siis pääseb igasuguse valiidse tokeniga ligi
+                // 2. Kui API otspunktil on .permitAll() siis pääseb igal juhul ligi
+                // 3. Kui API otspunktil on .hasRole() siis pääseb ligi ainult kui sellel
+                //              authoritiel on see roll määratud
                 .authorizeHttpRequests(requests -> requests
                         .requestMatchers("/public-products").permitAll()
                         .requestMatchers("/login").permitAll()
                         .requestMatchers("/signup").permitAll()
                         .requestMatchers("/categories").permitAll()
+                        .requestMatchers("/persons").hasAuthority("admin")
                         .anyRequest().authenticated()
                 )
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
