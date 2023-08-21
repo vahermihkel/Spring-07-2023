@@ -36,6 +36,9 @@ public class OrderService {
     @Autowired
     OrderRepository orderRepository;
 
+    @Autowired
+    ProductCache productCache;
+
     @Value("${everypay.url}")
     String url;
 
@@ -74,9 +77,6 @@ public class OrderService {
         // ID saamise eesmärgil
         return newOrder.getId();
     }
-
-    @Autowired
-    ProductCache productCache;
 
     // ctrl + alt + m
     public double getTotalSum(List<OrderRow> orderRows) throws NotEnoughInStockException, ExecutionException {
