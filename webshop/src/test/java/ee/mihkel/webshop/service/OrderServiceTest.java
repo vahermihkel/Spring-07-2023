@@ -2,6 +2,7 @@ package ee.mihkel.webshop.service;
 
 import ee.mihkel.webshop.cache.ProductCache;
 import ee.mihkel.webshop.dto.everypay.EverypayResponse;
+import ee.mihkel.webshop.dto.everypay.PaymentCheck;
 import ee.mihkel.webshop.entity.Order;
 import ee.mihkel.webshop.entity.OrderRow;
 import ee.mihkel.webshop.entity.Person;
@@ -134,10 +135,38 @@ class OrderServiceTest {
         when(restTemplate.exchange(anyString(), any(HttpMethod.class), any(), eq(EverypayResponse.class)))
                 .thenReturn(new ResponseEntity<>(response, HttpStatus.OK));
 
-        orderService.makePayment(100, 1L);
+        String everypayLink = orderService.makePayment(100, 1L);
+
+        assertEquals("LINK_THAT_EVERYPAY_RETURNS", everypayLink);
     }
 
     @Test
-    void checkPayment() {
+    void checkPaymentTrue_IfSettled() {
+        PaymentCheck response = new PaymentCheck();
+        response.setPayment_state("settled");
+        response.setOrder_reference("1");
+
+        when(orderRepository.findById(1L)).thenReturn(Optional.of(new Order()));
+        when(restTemplate.exchange(anyString(), eq(HttpMethod.GET), any(), eq(PaymentCheck.class)))
+                .thenReturn(new ResponseEntity<>(response, HttpStatus.OK));
+
+        Boolean isPaid = orderService.checkPayment("PAYMENT_REFERENCE");
+
+        assertTrue(isPaid);
+    }
+
+    @Test
+    void checkPaymentFalse_IfFailed() {
+        PaymentCheck response = new PaymentCheck();
+        response.setPayment_state("failed");
+        response.setOrder_reference("1");
+
+        when(orderRepository.findById(1L)).thenReturn(Optional.of(new Order()));
+        when(restTemplate.exchange(anyString(), eq(HttpMethod.GET), any(), eq(PaymentCheck.class)))
+                .thenReturn(new ResponseEntity<>(response, HttpStatus.OK));
+
+        Boolean isPaid = orderService.checkPayment("PAYMENT_REFERENCE");
+
+        assertFalse(isPaid);
     }
 }
