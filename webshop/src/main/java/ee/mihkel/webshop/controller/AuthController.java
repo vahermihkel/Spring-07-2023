@@ -9,6 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -35,6 +37,12 @@ public class AuthController {
             throw new RuntimeException("Parool ei ole õige");
         }
         return new ResponseEntity<>(tokenGenerator.getToken(person), HttpStatus.OK);
+    }
+
+    @GetMapping("social")
+    public ResponseEntity<String> socialLogin(OAuth2AuthenticationToken token) {
+        System.out.println(token);
+        return new ResponseEntity<>("SUCCESS", HttpStatus.OK);
     }
 
     @PostMapping("signup")
