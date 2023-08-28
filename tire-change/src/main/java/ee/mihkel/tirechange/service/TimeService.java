@@ -1,7 +1,9 @@
 package ee.mihkel.tirechange.service;
 
-import ee.mihkel.tirechange.entity.Shop;
+import ee.mihkel.tirechange.configuration.ShopsConfig;
+import ee.mihkel.tirechange.entity.ShopDto;
 import ee.mihkel.tirechange.entity.Time;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -15,6 +17,9 @@ import java.util.stream.Collectors;
 @Service
 public class TimeService {
 
+    @Autowired
+    ShopsConfig shopsConfig;
+
     public List<Time> getManchesterTimes() {
         // TODO: Application.properties sisse
         // TODO: Kuupäev muutuvaks
@@ -24,7 +29,7 @@ public class TimeService {
 
         ResponseEntity<Time[]> response = restTemplate.exchange(url, HttpMethod.GET, null, Time[].class);
 
-        Shop manchester = new Shop();
+        ShopDto manchester = new ShopDto();
         manchester.setName("Manchester");
         manchester.setPrivateCar(true);
         manchester.setTruck(true);
@@ -46,10 +51,23 @@ public class TimeService {
 
 
     public List<Time> getAllTimes() {
-        List<Time> times = getManchesterTimes();
+        List<Time> times = new ArrayList<>();
 
-        times.addAll(getLondonTimes());
+        for (ShopsConfig.Shop shop: getShops()) {
+            System.out.println(shop.getName());
+            times.addAll(fetchTimes(shop));
+        }
 
         return times;
     }
+
+    private List<Time> fetchTimes(ShopsConfig.Shop shop) {
+        return new ArrayList<>();
+    }
+
+    private List<ShopsConfig.Shop> getShops() {
+        return shopsConfig.getShops();
+    }
+
+
 }

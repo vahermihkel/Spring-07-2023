@@ -1,0 +1,121 @@
+<div class="wrapper-padding-lr">
+  <div class="booking-content">
+    <div class="calendar"
+         [ngClass]="showCalendar ? 'appear' : 'disappear'">
+      <div class="calendar-header">
+        <div class="arrow"
+             (click)="!previousArrowDisabled && onChangeMonth(-1)"
+             [ngClass]="{inactiveArrow: previousArrowDisabled}"><img class="previous-arrow"
+               src="assets\previous.png"></div>
+        <div class="calendar-month-year">{{ selectedMonthString }}</div>
+        <div class="calendar-month-year"
+             id="year"> {{ selectedYear }}</div>
+        <div class="arrow"
+             (click)="onChangeMonth(1)"><img class="next-arrow"
+               src="assets\previous.png"></div>
+      </div>
+      <table class="calendar-body">
+        <tr class="weekdays">
+          <th>Mon</th>
+          <th>Tue</th>
+          <th>Wed</th>
+          <th>Thu</th>
+          <th>Fri</th>
+          <th>Sat</th>
+          <th>Sun</th>
+        </tr>
+        <tr>
+          <th class="inactive"
+              (click)="day.isClickable && onDayClick(day.day)"
+              [ngClass]="{'active': day.isClickable, 'selected': day.day == selectedDay }"
+              *ngFor="let day of days | slice:1:8">
+            <span *ngIf="day.day != 0">
+              {{ day.day }}
+            </span>
+          </th>
+        </tr>
+        <tr>
+          <th class="inactive"
+              (click)="day.isClickable && onDayClick(day.day)"
+              [ngClass]="{'active': day.isClickable, 'selected': day.day == selectedDay }"
+              *ngFor="let day of days | slice:8:15">{{ day.day }}
+          </th>
+        </tr>
+        <tr>
+          <th class="inactive"
+              (click)="day.isClickable && onDayClick(day.day)"
+              [ngClass]="{'active': day.isClickable, 'selected': day.day == selectedDay }"
+              *ngFor="let day of days | slice:15:22">{{ day.day }}
+          </th>
+        </tr>
+        <tr>
+          <th class="inactive"
+              (click)="day.isClickable && onDayClick(day.day)"
+              [ngClass]="{'active': day.isClickable, 'selected': day.day == selectedDay }"
+              *ngFor="let day of days | slice:22:29">{{ day.day }}
+          </th>
+        </tr>
+        <tr>
+          <th class="inactive"
+              (click)="day.isClickable && onDayClick(day.day)"
+              [ngClass]="{'active': day.isClickable, 'selected': day.day == selectedDay }"
+              *ngFor="let day of days | slice:29:36">{{ day.day }}
+          </th>
+        </tr>
+        <tr>
+          <th class="inactive"
+              (click)="day.isClickable && onDayClick(day.day)"
+              [ngClass]="{'active': day.isClickable, 'selected': day.day == selectedDay }"
+              *ngFor="let day of days | slice:36:43">{{ day.day }}
+          </th>
+        </tr>
+      </table>
+    </div>
+
+    <div class="time-slots"
+         [ngClass]="showTimeSlots ? 'appear' : 'disappear'">
+      <div *ngIf="upperTimeSlots.length > 0">
+        <div class="time-slot-header">{{ hoursShown.minHour + ":00 - " + hoursShown.middleLeftHour + ":00"  }}</div>
+        <div class="upper-time-slots">
+          <div (click)="onTimeSlotClick(timeSlotBox)"
+               class="time-slot"
+               *ngFor="let timeSlotBox of upperTimeSlots"
+               [ngClass]="{'selected-time-slot': isAlreadySelected(timeSlotBox.id) }">
+            <div class="time-slot-text">
+              {{ timeSlotBox.date | date:'HH:mm' }}
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div *ngIf="middleTimeSlots.length > 0">
+        <div class="time-slot-header">{{ hoursShown.middleLeftHour + ":00 - " + hoursShown.middleRightHour + ":00"  }}</div>
+        <div class="middle-time-slots">
+          <div (click)="onTimeSlotClick(timeSlotBox)"
+               class="time-slot"
+               *ngFor="let timeSlotBox of middleTimeSlots"
+               [ngClass]="{'selected-time-slot': isAlreadySelected(timeSlotBox.id) }">
+            <div class="time-slot-text">
+              {{ timeSlotBox.date | date:'HH:mm' }}
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div *ngIf="lowerTimeSlots.length > 0">
+        <div class="time-slot-header">{{ hoursShown.middleRightHour + ":00 - " + hoursShown.maxHour + ":00"  }}</div>
+        <div class="lower-time-slots">
+          <div (click)="onTimeSlotClick(timeSlotBox)"
+               class="time-slot"
+               *ngFor="let timeSlotBox of lowerTimeSlots"
+               [ngClass]="{'selected-time-slot': isAlreadySelected(timeSlotBox.id) }">
+            <div class="time-slot-text">
+              {{ timeSlotBox.date | date:'HH:mm' }}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <br>
+</div>

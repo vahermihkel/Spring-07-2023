@@ -9,5 +9,5 @@ public class Time {
     private String id;
     private Date time;
     private boolean available;
-    private Shop shop;
+    private ShopDto shop;
 }
